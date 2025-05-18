@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For My Babylovely Boo Nazra 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Classy fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,400italic&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #fff0f6;
+      font-family: 'Lora', serif;
+      color: #d72660;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 420px;
+      margin: 40px auto;
+      background: #fff6fb;
+      border-radius: 20px;
+      box-shadow: 0 4px 16px #ffd6e0;
+      padding: 32px 24px;
+      text-align: center;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4em;
+      margin-bottom: 0.2em;
+      letter-spacing: 1px;
+    }
+    p, label, textarea, .footer {
+      font-family: 'Lora', serif;
+      font-size: 1.08em;
+    }
+    .hearts {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin: 16px 0;
+    }
+    .heart {
+      font-size: 2em;
+      cursor: pointer;
+      color: #ffb3c6;
+      transition: color 0.2s;
+    }
+    .heart.selected,
+    .heart:hover,
+    .heart.selected ~ .heart {
+      color: #d72660;
+    }
+    textarea {
+      width: 90%;
+      min-height: 60px;
+      border-radius: 8px;
+      border: 1px solid #ffd6e0;
+      padding: 8px;
+      font-size: 1em;
+      background: #fff0f6;
+      margin-bottom: 16px;
+      resize: vertical;
+    }
+    button {
+      background: #d72660;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 28px;
+      font-size: 1.1em;
+      font-family: 'Playfair Display', serif;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #ffb3c6;
+      color: #d72660;
+    }
+    .thankyou {
+      margin-top: 18px;
+      color: #d72660;
+      font-size: 1.2em;
+      font-family: 'Playfair Display', serif;
+      display: none;
+    }
+    .footer {
+      margin-top: 32px;
+      font-size: 1em;
+      color: #d72660;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hi (my little fuzzy wuzzy nuzzy) babyboo! 💕</h1>
+    <p>Let me know if you have any grievances (｡•̀ ⤙ •́ ｡ꐦ) !!! or want to rate how I'm behaving!</p>
+    <!-- Replace the action URL with your Sheet Monkey endpoint -->
+    <form id="feedbackForm" action="https://api.sheetmonkey.io/form/YOUR_FORM_ENDPOINT" method="POST" target="hidden_iframe" onsubmit="showThankYou();">
+      <label for="complaint">Your Complaint:</label><br>
+      <textarea id="complaint" name="complaint" placeholder="Type your complaint here..."></textarea>
+      <div>
+        <label>How am I behaving? </label>
+        <div class="hearts" id="heartRating">
+          <input type="hidden" name="rating" id="ratingInput" value="">
+          <span class="heart" data-value="1">&#10084;</span>
+          <span class="heart" data-value="2">&#10084;</span>
+          <span class="heart" data-value="3">&#10084;</span>
+          <span class="heart" data-value="4">&#10084;</span>
+          <span class="heart" data-value="5">&#10084;</span>
+        </div>
+      </div>
+      <button type="submit">Submit</button>
+      <div class="thankyou" id="thankyouMsg">Thank you, nuzzyboo! 💖</div>
+      <iframe name="hidden_iframe" style="display:none;"></iframe>
+    </form>
+  </div>
+  <div class="footer">
+    <marquee>Made with lots of love by naeem 💌</marquee>
+  </div>
+  <script>
+    // Heart rating logic
+    const hearts = document.querySelectorAll('.heart');
+    let selectedRating = 0;
+    const ratingInput = document.getElementById('ratingInput');
+    hearts.forEach((heart, idx) => {
+      heart.addEventListener('mouseover', () => {
+        hearts.forEach((h, i) => {
+          h.classList.toggle('selected', i <= idx);
+        });
+      });
+      heart.addEventListener('mouseout', () => {
+        hearts.forEach((h, i) => {
+          h.classList.toggle('selected', i < selectedRating);
+        });
+      });
+      heart.addEventListener('click', () => {
+        selectedRating = idx + 1;
+        ratingInput.value = selectedRating;
+        hearts.forEach((h, i) => {
+          h.classList.toggle('selected', i < selectedRating);
+        });
+      });
+    });
+
+    // Show thank you message after submit
+    function showThankYou() {
+      setTimeout(() => {
+        document.getElementById('thankyouMsg').style.display = 'block';
+        setTimeout(() => {
+          document.getElementById('thankyouMsg').style.display = 'none';
+          document.getElementById('feedbackForm').reset();
+          selectedRating = 0;
+          hearts.forEach(h => h.classList.remove('selected'));
+        }, 3000);
+      }, 500);
+    }
+  </script>
+</body>
+</html>
